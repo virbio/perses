@@ -52,7 +52,7 @@ jobs:
         with:
           environment-file: devtools/conda-envs/test_env.yaml
           environment-name: test
-          channels: jaimergp/label/unsupported-cudatoolkit-shim,conda-forge/label/openmm_dev,conda-forge,openeye
+          channels: jaimergp/label/unsupported-cudatoolkit-shim,conda-forge/label/openmm_dev,conda-forge
           channel-priority: flexible
           cache-env: true
           cache-downloads: true
@@ -84,13 +84,7 @@ jobs:
           micromamba info
           micromamba list
 
-      - name: Decrypt OpenEye license
-        shell: bash -l {0}
-        env:
-          OE_LICENSE_TEXT: ${{ secrets.OE_LICENSE }}
-        run: |
-          echo "${OE_LICENSE_TEXT}" > ${OE_LICENSE}
-          python -c "import openeye; assert openeye.oechem.OEChemIsLicensed(), 'OpenEye license checks failed!'"
+
 
       - name: Test the package
         shell: bash -l {0}

@@ -2,21 +2,7 @@
 
 The container can be downloaded with `docker pull ghcr.io/choderalab/perses:latest`
 
-## OpenEye License
 
-The open eye license file is not included and must be passed in as a mount point.
-The container expects `oe_license.txt` in `/openeye/` because we set `ENV OE_LICENSE=/openeye/oe_license.txt` in the Dockerfile.
-
-To do that use the `--mount` option.
-For example, if you have an `oe_license.txt` file in `$HOME/.OpenEye/`.
-
-```
-$ docker run --rm --mount type=bind,source=$HOME/.OpenEye/,target=/openeye/,readonly ghcr.io/choderalab/perses:latest python -c "import openeye; assert openeye.oechem.OEChemIsLicensed(), 'OpenEye license checks failed!'"
-```
-
-There is also an example file `Dockerfile-add-license` if you want to build a new container with the openeye license file inside it.
-If you use this method, be sure to push the container to private locations only. 
-Anyone with access to the container can extract the license. 
 
 ## GPU Support
 

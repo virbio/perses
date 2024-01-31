@@ -1,7 +1,6 @@
 name: test
 channels:
   - conda-forge
-  - openeye
 dependencies:
   - ambertools <23
   - arsenic
@@ -23,7 +22,6 @@ dependencies:
   - numba >=0.55.2
   - numexpr
   - numpy >=1.14
-  - openeye-toolkits
   - openff-toolkit >=0.11.0 # updated to latest
   - openff-units >=0.1.8
   - openmm >=7.7

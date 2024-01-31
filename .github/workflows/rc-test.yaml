@@ -31,7 +31,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           environment-file: devtools/conda-envs/test_env.yaml
-          channels: jaimergp/label/unsupported-cudatoolkit-shim,conda-forge,defaults,omnia-dev,openeye
+          channels: jaimergp/label/unsupported-cudatoolkit-shim,conda-forge,defaults,omnia-dev
           activate-environment: test
           auto-update-conda: true
           auto-activate-base: false
@@ -55,14 +55,6 @@ jobs:
         run: |
           mamba info -a
           mamba list
-
-      - name: Decrypt OpenEye license
-        shell: bash -l {0}
-        env:
-          OE_LICENSE_TEXT: ${{ secrets.OE_LICENSE }}
-        run: |
-          echo "${OE_LICENSE_TEXT}" > ${OE_LICENSE}
-          python -c "import openeye; assert openeye.oechem.OEChemIsLicensed(), 'OpenEye license checks failed!'"
 
       - name: Test the package
         shell: bash -l {0}

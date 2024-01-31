@@ -53,7 +53,6 @@ autodoc_default_options = {
 #     "netCDF4",
 #     "networkx",
 #     "oechem",
-#     "openeye",
 #     "openforcefield",
 #     "openmmtools",
 #     "openmoltools",

@@ -18,15 +18,9 @@ USER $MAMBA_USER
 # https://docs.python.org/3/using/cmdline.html#cmdoption-u
 ENV PYTHONUNBUFFERED=1
 
-RUN micromamba install -y -n base -c conda-forge -c openeye openeye-toolkits git pytest-xdist pytest-attrib mpiplus mpich mpi mpi4py clusterutils  "perses==$VERSION" cudatoolkit=11.2 && \
+RUN micromamba install -y -n base -c conda-forge  git pytest-xdist pytest-attrib mpiplus mpich mpi mpi4py clusterutils  "perses==$VERSION" cudatoolkit=11.2 && \
     micromamba clean --all --yes
 
-# Make directory and tell openeye where to find
-# license file
-USER root
-RUN mkdir /openeye
-USER $MAMBA_USER
-ENV OE_LICENSE=/openeye/oe_license.txt
 
 # Ensure that conda environment is automatically activated
 # https://github.com/mamba-org/micromamba-docker#running-commands-in-dockerfile-within-the-conda-environment

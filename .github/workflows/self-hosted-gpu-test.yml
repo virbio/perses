@@ -64,7 +64,7 @@ jobs:
       - uses: mamba-org/provision-with-micromamba@main
         with:
           environment-file: devtools/conda-envs/test_env.yaml
-          channels: conda-forge,openeye
+          channels: conda-forge
           extra-specs: |
             python==3.9
             openmm>=8.0
@@ -90,12 +90,6 @@ jobs:
           micromamba info
           micromamba list
 
-      - name: Decrypt OpenEye license
-        env:
-          OE_LICENSE_TEXT: ${{ secrets.OE_LICENSE }}
-        run: |
-          echo "${OE_LICENSE_TEXT}" > ${OE_LICENSE}
-          python -c "import openeye; assert openeye.oechem.OEChemIsLicensed(), 'OpenEye license checks failed!'"
 
       - name: Test the package
         run: |
