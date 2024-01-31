@@ -1,6 +1,5 @@
 from __future__ import absolute_import
 
-from perses.utils.openeye import createOEMolFromSDF, extractPositionsFromOEMol
 from perses.annihilation.relative import HybridTopologyFactory, RepartitionedHybridTopologyFactory, RESTCapableHybridTopologyFactory
 from perses.rjmc.topology_proposal import PointMutationEngine
 from perses.rjmc.geometry import FFAllAngleGeometryEngine
@@ -233,8 +232,7 @@ class PointMutationExecutor(object):
         TODO : allow argument for spectator ligands besides the 'ligand_file'
 
         """
-        from openeye import oechem
-
+        
         # Check arguments
         if not box_shape in KNOWN_BOX_SHAPES:
             raise ValueError(f"box_shape '{box_shape}' unsupported, must be one of {KNOWN_BOX_SHAPES}")
@@ -256,14 +254,7 @@ class PointMutationExecutor(object):
         molecules = []
         if ligand_input:
             if isinstance(ligand_input, str):
-                if ligand_input.endswith('.sdf'): # small molecule
-                    ligand_mol = createOEMolFromSDF(ligand_input, index=ligand_index, allow_undefined_stereo=allow_undefined_stereo_sdf)
-                    molecules.append(Molecule.from_openeye(ligand_mol, allow_undefined_stereo=False))
-                    ligand_positions, ligand_topology = extractPositionsFromOEMol(ligand_mol),  forcefield_generators.generateTopologyFromOEMol(ligand_mol)
-                    ligand_md_topology = md.Topology.from_openmm(ligand_topology)
-                    ligand_n_atoms = ligand_md_topology.n_atoms
-
-                elif ligand_input.endswith('pdb'): # protein
+                if ligand_input.endswith('pdb'): # protein
                     ligand_pdb = app.PDBFile(ligand_input)
                     ligand_positions, ligand_topology, ligand_md_topology = ligand_pdb.positions, ligand_pdb.topology, md.Topology.from_openmm(ligand_pdb.topology)
                     ligand_n_atoms = ligand_md_topology.n_atoms
@@ -275,12 +266,6 @@ class PointMutationExecutor(object):
 
                 else:
                     raise Exception("ligand_input file format is not supported. supported formats: .sdf, .pdb, .cif")
-
-            elif isinstance(ligand_input, oechem.OEMol): # oemol object
-                molecules.append(Molecule.from_openeye(ligand_input, allow_undefined_stereo=False))
-                ligand_positions, ligand_topology = extractPositionsFromOEMol(ligand_input),  forcefield_generators.generateTopologyFromOEMol(ligand_input)
-                ligand_md_topology = md.Topology.from_openmm(ligand_topology)
-                ligand_n_atoms = ligand_md_topology.n_atoms
 
             else:
                 _logger.warning(f'ligand filetype not recognised. Please provide a path to a .pdb or .sdf file')
